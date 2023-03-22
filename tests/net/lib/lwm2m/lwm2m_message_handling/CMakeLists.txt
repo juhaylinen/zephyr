@@ -1,0 +1,41 @@
+# SPDX-License-Identifier: Apache-2.0
+
+cmake_minimum_required(VERSION 3.20.0)
+find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
+project(lwm2m_message_handling)
+
+set(APP_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
+
+# Add test sources
+target_sources(app PRIVATE ${APP_SRC_DIR}/lwm2m_message_handling.c)
+target_sources(app PRIVATE ${APP_SRC_DIR}/stubs.c)
+target_sources(app PRIVATE ${ZEPHYR_BASE}/subsys/net/lib/lwm2m/lwm2m_message_handling.c)
+
+# Add includes directories
+target_include_directories(app PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
+target_include_directories(app PRIVATE ${ZEPHYR_BASE}/include/)
+target_include_directories(app PRIVATE ${ZEPHYR_BASE}/subsys/net/lib/lwm2m/)
+
+add_compile_definitions(CONFIG_LWM2M_ENGINE_MAX_PENDING=2)
+add_compile_definitions(CONFIG_LWM2M_ENGINE_MAX_REPLIES=2)
+add_compile_definitions(CONFIG_LWM2M_ENGINE_VALIDATION_BUFFER_SIZE=512)
+add_compile_definitions(CONFIG_LWM2M_ENGINE_MESSAGE_HEADER_SIZE=512)
+add_compile_definitions(CONFIG_LWM2M_ENGINE_MAX_MESSAGES=10)
+add_compile_definitions(CONFIG_LWM2M_COAP_BLOCK_SIZE=256)
+add_compile_definitions(CONFIG_LWM2M_COAP_MAX_MSG_SIZE=512)
+add_compile_definitions(CONFIG_LWM2M_NUM_BLOCK1_CONTEXT=3)
+add_compile_definitions(CONFIG_LWM2M_FIRMWARE_PORT_NONSECURE=5683)
+add_compile_definitions(CONFIG_LWM2M_FIRMWARE_PORT_SECURE=5684)
+add_compile_definitions(CONFIG_LWM2M_COMPOSITE_PATH_LIST_SIZE=6)
+add_compile_definitions(CONFIG_LWM2M_RW_CBOR_SUPPORT)
+add_compile_definitions(CONFIG_LWM2M_RW_SENML_CBOR_SUPPORT)
+add_compile_definitions(CONFIG_LWM2M_RW_SENML_JSON_SUPPORT)
+
+add_compile_definitions(CONFIG_COAP_MAX_RETRANSMIT=4)
+add_compile_definitions(CONFIG_LWM2M_PEER_PORT=5683)
+
+add_compile_definitions(CONFIG_LWM2M_QUEUE_MODE_ENABLED)
+add_compile_definitions(CONFIG_LWM2M_DTLS_SUPPORT)
+add_compile_definitions(CONFIG_LWM2M_RD_CLIENT_SUPPORT_BOOTSTRAP)
+add_compile_definitions(CONFIG_LWM2M_VERSION_1_1)
+add_compile_definitions(CONFIG_LWM2M_SERVER_OBJECT_VERSION_1_1)
